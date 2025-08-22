@@ -11,6 +11,7 @@ const topIcons = ["AC", "+/-", "%"]
 
 const buttons = document.querySelector(".buttons")
 const display = document.querySelector(".display")
+let justEvaluated = true;
 
 
 let A = 0;
@@ -51,12 +52,16 @@ buttonsText.forEach(button => {
                     } else if (operator == "+") {
                         display.value = numA + numB;
                     }
+                    justEvaluated = true;
                     
                 }
             } else {
+                if(display.value !== "") {
+                    A = display.value;
+                    display.value = "";
+                }
                 operator = button;
-                A = display.value;
-                display.value = ""
+                
             }
         } else if(topIcons.includes(button)) {
             if(button == "AC") {
@@ -78,6 +83,10 @@ buttonsText.forEach(button => {
             }
             
         } else {
+            if(justEvaluated) {
+                justEvaluated = false;
+                display.value = "";
+            }
             if(button == ".") {
                 if(display.value != "" && !display.value.includes(button)) {
                     display.value += button
