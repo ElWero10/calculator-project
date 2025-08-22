@@ -12,6 +12,12 @@ const topIcons = ["AC", "+/-", "%"]
 const buttons = document.querySelector(".buttons")
 const display = document.querySelector(".display")
 
+
+let A = 0;
+let operator = null;
+let B = null;
+
+
 buttonsText.forEach(button => {
     const newButton = document.createElement("button")
     newButton.innerText = `${button}`;
@@ -30,10 +36,34 @@ buttonsText.forEach(button => {
 
     newButton.addEventListener("click", () => {
         if(rightIcons.includes(button)) {
+            if(button == "=") {
+                if(A !== null) {
+                    B = display.value;
+                    let numA = parseFloat(A)
+                    let numB = parseFloat(B)
 
+                    if(operator == "÷") {
+                        display.value = numA / numB;
+                    } else if(operator == "x") {
+                        display.value = numA * numB;
+                    } else if(operator == "-") {
+                        display.value = numA - numB;
+                    } else if (operator == "+") {
+                        display.value = numA + numB;
+                    }
+                    
+                }
+            } else {
+                operator = button;
+                A = display.value;
+                display.value = ""
+            }
         } else if(topIcons.includes(button)) {
             if(button == "AC") {
                 display.value = "";
+                A = 0;
+                operator = null;
+                B = null;
             }else if(button == "+/-") {
                 if(display.value !== ""  && display.value != "0") {
                     if(display.value[0] == "-") {
@@ -44,7 +74,7 @@ buttonsText.forEach(button => {
                 }
 
             } else if(button == "%") {
-                display.value = parseFloat(display.value) / 100;
+                display.value = (parseFloat(display.value) / 100).toFixed(4);
             }
             
         } else {
@@ -62,8 +92,4 @@ buttonsText.forEach(button => {
 
     buttons.appendChild(newButton)
 });
-
-let A = 0;
-let operator = null;
-let B = null;
 
